@@ -27,7 +27,7 @@ In `model-config.json` add `../node_modules/loopback-object-acl` to mixins
   }
 ```
 
-## Requirements
+## TODO
 
 ### Read-permissions
 - [x] Do only return objects from database that the requesting user has access to.
