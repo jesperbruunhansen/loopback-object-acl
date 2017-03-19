@@ -1,5 +1,5 @@
-const CurrentUserUtil = require("./ObjectAcl/CurrentUserUtil");
-const ObjectAcl = require("./ObjectAcl/ObjectAcl");
+const CurrentUserUtil = require("./lib/CurrentUserUtil");
+const ObjectAcl = require("./lib/ObjectAcl");
 
 class ObjectAclController {
 
