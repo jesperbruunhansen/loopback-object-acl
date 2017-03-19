@@ -1,7 +1,7 @@
 {
   "name": "loopback-object-acl",
   "version": "1.0.0",
-  "description": "## Requirements",
+  "description": "Set object-level ACL permissions",
   "main": "ObjectAclController.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
