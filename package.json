@@ -1,0 +1,20 @@
+{
+  "name": "loopback-object-acl",
+  "version": "1.0.0",
+  "description": "## Requirements",
+  "main": "ObjectAclController.js",
+  "private":true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesperbruunhansen/loopback-object-acl.git"
+  },
+  "author": "Jesper Bruun Hansen <jesper@momentify.dk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jesperbruunhansen/loopback-object-acl/issues"
+  },
+  "homepage": "https://github.com/jesperbruunhansen/loopback-object-acl#readme"
+}
