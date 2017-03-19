@@ -2,7 +2,9 @@
 
 ## Install
 
-`npm intall loopback-object-acl`
+```
+npm install loopback-object-acl
+```
 
 In `model-config.json` add `../node_modules/loopback-object-acl` to mixins
 
