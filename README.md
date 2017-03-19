@@ -56,7 +56,7 @@ Version 2.0
 ```
 MIT License
 
-Copyright (c) [year] [fullname]
+Copyright (c) 2017 Jesper Bruun Hansen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
