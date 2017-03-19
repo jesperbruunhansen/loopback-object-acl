@@ -26,6 +26,8 @@ In `model-config.json` add `../node_modules/loopback-object-acl` to mixins
     ]
   }
 ```
+## Compatibility
+This mixin is only test with **Loopback v3.X** and using **MongoDB** as DataSource
 
 ## TODO
 
