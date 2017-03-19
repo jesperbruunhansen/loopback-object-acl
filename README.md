@@ -26,8 +26,14 @@ In `model-config.json` add `../node_modules/loopback-object-acl` to mixins
     ]
   }
 ```
+
+### CurrentUser in context
+This mixins expects a `currentUser` object on the `options` object. This is **not** default Loopback v3.x behavior, and must be implemented before usage.
+
+Implementation can found here: http://loopback.io//doc/en/lb3/Using-current-context.html#use-a-custom-strong-remoting-phase
+
 ## Compatibility
-This mixin is only test with **Loopback v3.X** and using **MongoDB** as DataSource
+This mixin is only tested with **Loopback v3.X** and using **MongoDB** as DataSource
 
 ## TODO
 
