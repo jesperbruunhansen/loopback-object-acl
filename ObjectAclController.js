@@ -10,6 +10,10 @@ class ObjectAclController {
 
   onAccess(ctx, next) {
 
+    if(!ctx.options.currentUser){
+      throw new Error("currentUser not set on ctx");
+    }
+
     const currentUserUtil = new CurrentUserUtil({
       currentUser: ctx.options.currentUser,
       app: this.model.app
