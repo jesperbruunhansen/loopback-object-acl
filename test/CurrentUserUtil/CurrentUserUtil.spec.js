@@ -3,7 +3,6 @@ const CurrentUserUtil = require("../../lib/CurrentUserUtil");
 const UserMock = require("../util/UserMock");
 
 
-
 describe("CurrentUser Utility tests", () => {
 
   let currentUserUtil = null;
