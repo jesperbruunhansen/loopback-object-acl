@@ -27,6 +27,24 @@ In `model-config.json` add `../node_modules/loopback-object-acl` to mixins
   }
 ```
 
+Set `ObjectAclController` on what ever model you would like to protect with Object-level ACL:
+
+```js
+book.json
+
+{
+  "name": "Book",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "ObjectAclController": {}
+  }
+  ...
+}
+```
 ### CurrentUser in context
 This mixins expects a `currentUser` object on the `options` object. This is **not** default Loopback v3.x behavior, and must be implemented before usage.
 
