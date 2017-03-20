@@ -49,8 +49,8 @@ Version 2.0
 
 
 ### Tests
-- [ ] ObjectAcl.js
-- [ ] CurrentUserUtil.js
+- [x] ObjectAcl.js
+- [x] CurrentUserUtil.js
 
 ## License
 ```
