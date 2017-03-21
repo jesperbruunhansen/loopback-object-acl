@@ -1,6 +1,6 @@
 {
   "name": "loopback-object-acl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Set object-level ACL permissions",
   "main": "ObjectAclController.js",
   "scripts": {
