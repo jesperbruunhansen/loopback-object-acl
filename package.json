@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/jesperbruunhansen/loopback-object-acl/issues"
   },
-  "homepage": "https://github.com/jesperbruunhansen/loopback-object-acl#readme"
+  "homepage": "https://github.com/jesperbruunhansen/loopback-object-acl#readme",
+  "devDependencies": {
+    "loopback": "^3.5.0"
+  }
 }
