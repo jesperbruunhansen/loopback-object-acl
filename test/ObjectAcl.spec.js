@@ -1,7 +1,7 @@
 const assert = require('assert');
-const CurrentUserUtil = require("../../lib/CurrentUserUtil");
-const ObjectAcl = require("../../lib/ObjectAcl");
-const UserMock = require("../util/UserMock");
+const CurrentUserUtil = require("../lib/CurrentUserUtil");
+const ObjectAcl = require("../lib/ObjectAcl");
+const UserMock = require("util/UserMock");
 
 describe("Object Acl tests", () => {
 
