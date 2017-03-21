@@ -10,7 +10,8 @@
       "loopback/common/mixins",
       "loopback/server/mixins",
       "../common/mixins",
-      "./mixins"
+      "./mixins",
+      "../../../"
     ]
   },
   "User": {
@@ -34,5 +35,9 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Book": {
+    "dataSource": "db",
+    "public": true
   }
 }

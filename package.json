@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/jesperbruunhansen/loopback-object-acl#readme",
   "devDependencies": {
-    "loopback": "^3.5.0"
+    "loopback": "^3.5.0",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "path": "^0.12.7"
   }
 }

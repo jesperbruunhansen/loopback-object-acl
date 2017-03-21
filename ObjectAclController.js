@@ -19,7 +19,7 @@ class ObjectAclController {
       if (requestParser.hasAcl()) {
 
         if (!requestParser.hasReadPerm() && !requestParser.hasWritePerm()) {
-          return next(new Error("Saw ACL, but no permissions given"));
+          return next({message:"Saw ACL, but no permissions given"});
         }
 
         requestParser.resolveReadPerms();
