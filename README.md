@@ -87,6 +87,35 @@ POST /api/books
 }
 ```
 
+### Public objects
+If you have installed the mixin on your model but you dont specify `$acl` on creation of a new object, the objects visibility will be public, ex: 
+
+POST /api/books
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship"
+}
+```
+
+returns
+
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship",
+   "$acl":{
+     "r_perm": {
+       "groups":["*"],
+       "users":["*"]
+     },
+     "w_perm": {
+       "groups":["*"],
+       "users":["*"]
+     }
+   }
+}
+```
 
 
 ## Install
