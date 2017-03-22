@@ -62,7 +62,7 @@ This mixin is only tested with **Loopback v3.X** and using **MongoDB** as DataSo
 Version 2.0
 
 ### Client
-- [ ] Set ACL on object-creation
+- [x] Set ACL on object-creation
 - [ ] Set permissions on user creation
 
 
