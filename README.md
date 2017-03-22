@@ -2,7 +2,9 @@
 Loopback provides great "class-level" ACL's for restricting access to a whole Model or its mehods, but greatly lacks the ability to restric access to individual objects. This project tries to solve this, by setting object-level ACL's on each object, and manipulates Loopback's Query to only return objects the requesting user has access to.
 
 ## Examples
-Lets say we want a Book-object only to be readable (pun intended) by 3 users (id: "aaa", id: "bbb" and id "ccc") in our system:
+
+### User Read-level permissions
+Lets say we want a Book-object only to be readable (pun intended) by 3 users (id: "aaa", id: "bbb" and id: "ccc"):
 
 POST /api/books
 ```js
@@ -49,7 +51,44 @@ GET /api/books/123
    }
 }
 ```
-  
+
+### Group Read-level permissions
+To specifiy every user that will have access to the object can be cumbersome and timeconsuming, if 100 or even 1000 users should have access. This is where groups come in handy.
+
+POST /api/books
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship",
+   "$acl":{
+     "r_perm": {
+       "groups":["group-id-1"]
+     }
+   }
+}
+```
+
+As you've might guessed, this object is now accessible by users who has `group-id-1` specified in `acl_groups` on the User object.
+
+### Combining Group and Read-level permissions
+If `user-id-1` and `user-id-2` is not in `group-id-1` then these users can have explicit access this way:
+
+POST /api/books
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship",
+   "$acl":{
+     "r_perm": {
+       "groups":["group-id-1"],
+       "users":["user-id-1", "user-id-2"]
+     }
+   }
+}
+```
+
+
+
 ## Install
 
 ```
