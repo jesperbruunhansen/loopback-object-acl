@@ -39,6 +39,7 @@ This object can now only be accessed by a user with an id of "aaa", "bbb" or "cc
 GET /api/books/123
 ```js
 {
+   "id": "123"
    "title": "Clean Code",
    "subtitle": "A Handbook of Agile Software Craftsmanship",
    "$acl":{
