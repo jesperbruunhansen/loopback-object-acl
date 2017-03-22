@@ -1,7 +1,7 @@
 const assert = require('assert');
 const path = require('path');
 const request = require("supertest");
-
+const randomstring = require("randomstring");
 const SIMPLE_APP = path.join(__dirname, 'test-server');
 const app = require(path.join(SIMPLE_APP, 'server/server.js'));
 
@@ -11,8 +11,13 @@ describe("ObjectAclController tests", () => {
 
   before((done) => {
 
+    const email = randomstring.generate({
+      length: 12,
+      charset: 'alphabetic'
+    });
+
     app.models.User.create({
-      email: "test@test.com",
+      email: email + "@test.com",
       password: "1234"
     }).then(() => {
 
