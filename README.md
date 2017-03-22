@@ -1,6 +1,54 @@
 # loopback-object-acl
 Loopback provides great "class-level" ACL's for restricting access to a whole Model or its mehods, but greatly lacks the ability to restric access to individual objects. This project tries to solve this, by setting object-level ACL's on each object, and manipulates Loopback's Query to only return objects the requesting user has access to.
 
+## Examples
+Lets say we want a Book-object only to be readable (pun intended) by 3 users (id: "aaa", id: "bbb" and id "ccc") in our system:
+
+POST /api/books
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship",
+   "$acl":{
+     "r_perm": {
+       "users":["aaa", "bbb", "ccc"]
+     }
+   }
+}
+```
+
+The mixin will parse the object to be stored as in Mongo:
+
+```js
+{
+   id: ObjectId("123"),
+   title: "Clean Code",
+   subtitle: "A Handbook of Agile Software Craftsmanship",
+   r: {
+     u: ["aaa", "bbb", "ccc"]
+     g: []
+   },
+   w: {
+     u: [],
+     g: []
+   }
+}
+```
+This object can now only be accessed by a user with an id of "aaa", "bbb" or "ccc" and no one else. When retrieving, the mixin will parse the object's ACL right back again:
+
+GET /api/books/123
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship",
+   "$acl":{
+     "r_perm": {
+       "users":["aaa", "bbb", "ccc"]
+     }
+   }
+}
+```
+  
 ## Install
 
 ```
