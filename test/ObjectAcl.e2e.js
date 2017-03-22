@@ -34,7 +34,7 @@ describe("Object ACL e2e", () => {
 
   });
 
-  describe("Read operations", () => {
+  describe("User Read permissions", () => {
 
     before(() => {
       return Promise.all([
@@ -77,6 +77,28 @@ describe("Object ACL e2e", () => {
         .set({"authorization": token})
         .expect('Content-Type', /json/)
         .expect(404)
+        .end(done);
+
+    });
+
+  });
+
+  describe("Public Read permissions", () => {
+
+    before(() => {
+      return app.models.Book.create({
+        "name": "name",
+        "isbn": 1231,
+      });
+    });
+
+    it("It publicly readable by all", () => {
+
+      request(app)
+        .get("/api/books/3")
+        .set({"authorization": token})
+        .expect('Content-Type', /json/)
+        .expect(200)
         .end(done);
 
     });
