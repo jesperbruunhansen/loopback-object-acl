@@ -1,8 +1,9 @@
 const assert = require('assert');
 const path = require('path');
+const request = require("supertest");
+
 const SIMPLE_APP = path.join(__dirname, 'test-server');
 const app = require(path.join(SIMPLE_APP, 'server/server.js'));
-const request = require("supertest");
 
 describe("ObjectAclController tests", () => {
 
