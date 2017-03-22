@@ -18,6 +18,7 @@
   "homepage": "https://github.com/jesperbruunhansen/loopback-object-acl#readme",
   "devDependencies": {
     "bluebird": "^3.5.0",
+    "compression": "^1.6.2",
     "loopback": "^3.5.0",
     "loopback-boot": "^2.23.0",
     "mocha": "^3.2.0",
