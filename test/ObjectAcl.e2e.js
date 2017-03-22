@@ -92,7 +92,7 @@ describe("Object ACL e2e", () => {
       });
     });
 
-    it("It publicly readable by all", () => {
+    it("It publicly readable by all", (done) => {
 
       request(app)
         .get("/api/books/3")

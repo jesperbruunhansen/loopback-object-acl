@@ -72,14 +72,14 @@ describe("Object Acl tests", () => {
     it("Returns read user query", () => {
 
       const q = objectAcl.getUserReadQuery();
-      assert.deepEqual(q, {"r.u":{"inq":["abc123"]}});
+      assert.deepEqual(q, {"r.u":{"inq":["abc123", "*"]}});
 
     });
 
     it("Returns read groups query", () => {
 
       const q = objectAcl.getGroupsReadQuery();
-      assert.deepEqual(q, {"r.g":{"inq":["aaa", "bbb", "ccc"]}});
+      assert.deepEqual(q, {"r.g":{"inq":["aaa", "bbb", "ccc", "*"]}});
 
     });
 
@@ -87,8 +87,8 @@ describe("Object Acl tests", () => {
 
       objectAcl.setReadQuery();
       assert.deepEqual(objectAcl.aclReadQuery, [
-        {"r.u":{"inq":["abc123"]}},
-        {"r.g":{"inq":["aaa", "bbb", "ccc"]}}
+        {"r.u":{"inq":["abc123", "*"]}},
+        {"r.g":{"inq":["aaa", "bbb", "ccc", "*"]}}
       ]);
 
     });
@@ -99,8 +99,8 @@ describe("Object Acl tests", () => {
       assert.deepEqual(objectAcl.query, {
         where: {
           or: [
-            {"r.u":{"inq":["abc123"]}},
-            {"r.g":{"inq":["aaa", "bbb", "ccc"]}}
+            {"r.u":{"inq":["abc123", "*"]}},
+            {"r.g":{"inq":["aaa", "bbb", "ccc", "*"]}}
           ]
         }
       });
