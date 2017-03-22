@@ -8,7 +8,11 @@ class ObjectAclController {
     this.model = Model;
     this.model.observe("before save", (ctx, next) => this.beforeSave(ctx, next));
     this.model.observe("access", (ctx, next) => this.onAccess(ctx, next));
-    this.model.afterRemote("**", (ctx, instance, next) => {this.afterRemote(ctx, instance, next)});
+    this.model.afterRemote("**", (ctx, instance, next) => this.afterRemote(ctx, instance, next));
+  }
+
+  afterRemote(ctx, instance, next){
+    next();
   }
 
   beforeSave(ctx, next) {
