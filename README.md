@@ -53,7 +53,7 @@ GET /api/books/123
 ```
 
 ### Group Read-level permissions
-To specifiy every user that will have access to the object can be cumbersome and timeconsuming, if 100 or even 1000 users should have access. This is where groups come in handy.
+To specifiy every user that will have access to the object can be cumbersome and timeconsuming. This is where groups come in handy.
 
 POST /api/books
 ```js
