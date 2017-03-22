@@ -9,30 +9,24 @@ describe("ObjectAclController tests", () => {
 
   let token;
 
-  before((done) => {
+  before(() => {
 
     const email = randomstring.generate({
       length: 12,
       charset: 'alphabetic'
     });
 
-    app.models.User.create({
+    return app.models.User.create({
       email: email + "@test.com",
       password: "1234"
-    }).then(() => {
+    }).then(user => {
 
-      request(app)
-        .post('/api/users/login')
-        .send({
-          email: "test@test.com",
-          password: "1234"
-        })
-        .end((err, res) => {
-
-          token = res.body.id;
-          done();
-
-        });
+      return app.models.AccessToken.create({
+        userId: user.id
+      }).then(accessToken => {
+        token = accessToken.id;
+        return Promise.resolve();
+      });
 
     });
 
@@ -70,13 +64,15 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "r": {
-              "u": ["aaa", "bbb"],
-              "g": ["ccc", "ddd"]
-            },
-            "w": {
-              "u": ["aaa", "bbb"],
-              "g": ["ccc", "ddd"]
+            "$acl": {
+              "r_perm": {
+                "users": ["aaa", "bbb"],
+                "groups": ["ccc", "ddd"]
+              },
+              "w_perm": {
+                "users": ["aaa", "bbb"],
+                "groups": ["ccc", "ddd"]
+              }
             }
           });
           done();
@@ -105,15 +101,16 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "r": {
-              "u": ["*"],
-              "g": ["*"]
-            },
-            "w": {
-              "u": ["*"],
-              "g": ["*"]
-            }
-          });
+            "$acl": {
+              "r_perm": {
+                "users": ["*"],
+                "groups": ["*"]
+              },
+              "w_perm": {
+                "users": ["*"],
+                "groups": ["*"]
+              }
+            }});
           done();
 
         });
@@ -162,13 +159,15 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "r": {
-              "u": ["aaa", "bbb"],
-              "g": []
-            },
-            "w": {
-              "u": [],
-              "g": []
+            "$acl": {
+              "r_perm": {
+                "users": ["aaa", "bbb"],
+                "groups": []
+              },
+              "w_perm": {
+                "users": [],
+                "groups": []
+              }
             }
           });
 
@@ -203,13 +202,15 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "r": {
-              "u": [],
-              "g": ["aaa", "bbb"]
-            },
-            "w": {
-              "u": [],
-              "g": []
+            "$acl": {
+              "r_perm": {
+                "users": [],
+                "groups": ["aaa", "bbb"]
+              },
+              "w_perm": {
+                "users": [],
+                "groups": []
+              }
             }
           });
 
@@ -245,13 +246,15 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "r": {
-              "u": [],
-              "g": []
-            },
-            "w": {
-              "u": ["aaa", "bbb"],
-              "g": []
+            "$acl": {
+              "r_perm": {
+                "users": [],
+                "groups": []
+              },
+              "w_perm": {
+                "users": ["aaa", "bbb"],
+                "groups": []
+              }
             }
           });
           done();
@@ -285,13 +288,15 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "r": {
-              "u": [],
-              "g": []
-            },
-            "w": {
-              "u": [],
-              "g": ["aaa", "bbb"]
+            "$acl": {
+              "r_perm": {
+                "users": [],
+                "groups": []
+              },
+              "w_perm": {
+                "users": [],
+                "groups": ["aaa", "bbb"]
+              }
             }
           });
 

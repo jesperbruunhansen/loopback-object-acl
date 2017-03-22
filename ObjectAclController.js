@@ -12,6 +12,9 @@ class ObjectAclController {
   }
 
   afterRemote(ctx, instance, next){
+    if(instance){
+      new RequestParser(instance).DataSource.parse();
+    }
     next();
   }
 
@@ -19,17 +22,17 @@ class ObjectAclController {
 
     if (ctx.isNewInstance) {
 
-      const requestParser = new RequestParser(ctx.instance);
+      const parser = new RequestParser(ctx.instance);
 
-      if (requestParser.hasAcl()) {
+      if (parser.Client.hasAcl()) {
 
-        if (!requestParser.hasReadPerm() && !requestParser.hasWritePerm()) {
+        if (!parser.Client.hasReadPerm() && !parser.Client.hasWritePerm()) {
           return next({message:"Saw ACL, but no permissions given"});
         }
 
-        requestParser.resolveReadPerms();
-        requestParser.resolveWritePerms();
-        requestParser.clearAclOnRequest();
+        parser.Client.resolveReadPerms();
+        parser.Client.resolveWritePerms();
+        parser.Client.clearAclOnRequest();
 
         return next();
 
@@ -37,8 +40,8 @@ class ObjectAclController {
       else {
 
         //No Object ACL's present == public object
-        requestParser.setReadPermissions(["*"], ["*"]);
-        requestParser.setWritePermissions(["*"], ["*"]);
+        parser.Client.setReadPermissions(["*"], ["*"]);
+        parser.Client.setWritePermissions(["*"], ["*"]);
 
         return next();
       }
