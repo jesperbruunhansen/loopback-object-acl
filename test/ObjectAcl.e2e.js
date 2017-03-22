@@ -212,7 +212,7 @@ describe("Object ACL e2e", () => {
         .end(done);
     });
 
-    it("Returns 404 Not Found when User 2 accesses Book 2", done => {
+    it("Returns 404 Not Found when User 2 accesses Book 1", done => {
       request(app)
         .get("/api/books/" + bookId1)
         .set({"authorization": user2token})
