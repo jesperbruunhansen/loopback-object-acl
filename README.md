@@ -1,6 +1,123 @@
 # loopback-object-acl
 Loopback provides great "class-level" ACL's for restricting access to a whole Model or its mehods, but greatly lacks the ability to restric access to individual objects. This project tries to solve this, by setting object-level ACL's on each object, and manipulates Loopback's Query to only return objects the requesting user has access to.
 
+## Examples
+
+### User Read-level permissions
+Lets say we want a Book-object only to be readable (pun intended) by 3 users (id: "aaa", id: "bbb" and id: "ccc"):
+
+POST /api/books
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship",
+   "$acl":{
+     "r_perm": {
+       "users":["aaa", "bbb", "ccc"]
+     }
+   }
+}
+```
+
+The mixin will parse the object to be stored as in Mongo:
+
+```js
+{
+   id: ObjectId("123"),
+   title: "Clean Code",
+   subtitle: "A Handbook of Agile Software Craftsmanship",
+   r: {
+     u: ["aaa", "bbb", "ccc"]
+     g: []
+   },
+   w: {
+     u: [],
+     g: []
+   }
+}
+```
+This object can now only be accessed by a user with an id of "aaa", "bbb" or "ccc" and no one else. When retrieving, the mixin will parse the object's ACL right back again:
+
+GET /api/books/123
+```js
+{
+   "id": "123"
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship",
+   "$acl":{
+     "r_perm": {
+       "users":["aaa", "bbb", "ccc"]
+     }
+   }
+}
+```
+
+### Group Read-level permissions
+To specifiy every user that will have access to the object can be cumbersome and timeconsuming. This is where groups come in handy.
+
+POST /api/books
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship",
+   "$acl":{
+     "r_perm": {
+       "groups":["group-id-1"]
+     }
+   }
+}
+```
+
+As you've might guessed, this object is now accessible by users who has `group-id-1` specified in `acl_groups` on the User object.
+
+### Combining Group and Read-level permissions
+If `user-id-1` and `user-id-2` is not in `group-id-1` then these users can have explicit access this way:
+
+POST /api/books
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship",
+   "$acl":{
+     "r_perm": {
+       "groups":["group-id-1"],
+       "users":["user-id-1", "user-id-2"]
+     }
+   }
+}
+```
+
+### Public objects
+If you have installed the mixin on your model but you dont specify `$acl` on creation of a new object, the objects visibility will be public, ex: 
+
+POST /api/books
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship"
+}
+```
+
+returns
+
+```js
+{
+   "title": "Clean Code",
+   "subtitle": "A Handbook of Agile Software Craftsmanship",
+   "$acl":{
+     "r_perm": {
+       "groups":["*"],
+       "users":["*"]
+     },
+     "w_perm": {
+       "groups":["*"],
+       "users":["*"]
+     }
+   }
+}
+```
+
+
 ## Install
 
 ```
