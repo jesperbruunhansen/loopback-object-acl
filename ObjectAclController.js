@@ -13,7 +13,10 @@ class ObjectAclController {
 
   afterRemote(ctx, instance, next){
     if(instance){
-      new RequestParser(instance).DataSource.parse();
+      const parser = new RequestParser(instance);
+      if(parser.DataSource.hasAclPerms()){
+        parser.DataSource.parse();
+      }
     }
     next();
   }

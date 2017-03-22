@@ -32,6 +32,91 @@ describe("ObjectAclController tests", () => {
 
   });
 
+  describe("Updating objects", () => {
+
+    let bookId;
+
+    before(() => {
+      return app.models.Book.create({
+        name: "Clean Code"
+      }).then(book => {
+        bookId = book.id;
+        return Promise.resolve();
+      });
+    });
+
+    it("Returns OK if updating the object", (done) => {
+
+      request(app)
+        .put("/api/books/" + bookId)
+        .set({"authorization": token})
+        .send({
+          "name": "VERY clean code",
+          "$acl": {
+            "r_perm": {
+              "users": ["*"],
+              "groups": ["*"]
+            },
+            "w_perm": {
+              "users": ["*"],
+              "groups": ["*"]
+            }
+          }
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+
+          if (err) done(err);
+
+          const body = res.body;
+          assert.deepEqual(body, {
+            "id": bookId,
+            "name": "VERY clean code",
+            "$acl": {
+              "r_perm": {
+                "users": ["*"],
+                "groups": ["*"]
+              },
+              "w_perm": {
+                "users": ["*"],
+                "groups": ["*"]
+              }
+            }
+          });
+          done();
+
+        });
+
+    });
+
+    it("Returns OK even if no ACLs are given", done => {
+
+      request(app)
+        .put("/api/books/" + bookId)
+        .set({"authorization": token})
+        .send({
+          "name": "VERY clean code v.2"
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+
+          if (err) done(err);
+
+          const body = res.body;
+          assert.deepEqual(body, {
+            "id": bookId,
+            "name": "VERY clean code v.2"
+          });
+          done();
+
+        });
+
+    });
+
+  });
+
   describe("Before-save parsing", () => {
 
     it("Parses read and write, when $acl is present", (done) => {
@@ -110,7 +195,8 @@ describe("ObjectAclController tests", () => {
                 "users": ["*"],
                 "groups": ["*"]
               }
-            }});
+            }
+          });
           done();
 
         });
