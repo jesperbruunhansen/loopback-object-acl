@@ -1,10 +1,10 @@
 {
   "name": "loopback-object-acl",
-  "version": "1.0.0",
+  "version": "0.0.9",
   "description": "Set object-level ACL permissions",
   "main": "ObjectAclController.js",
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha ./test"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,15 @@
   "bugs": {
     "url": "https://github.com/jesperbruunhansen/loopback-object-acl/issues"
   },
-  "homepage": "https://github.com/jesperbruunhansen/loopback-object-acl#readme"
+  "homepage": "https://github.com/jesperbruunhansen/loopback-object-acl#readme",
+  "devDependencies": {
+    "bluebird": "^3.5.0",
+    "loopback": "^3.5.0",
+    "mocha": "^3.2.0",
+    "randomstring": "^1.1.5",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "path": "^0.12.7"
+  }
 }

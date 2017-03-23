@@ -1,0 +1,23 @@
+{
+  "name": "Book",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "ObjectAclController":{}
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "isbn": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

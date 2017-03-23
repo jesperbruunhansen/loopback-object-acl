@@ -1,6 +1,6 @@
 const assert = require('assert');
-const CurrentUserUtil = require("../../lib/CurrentUserUtil");
-const UserMock = require("../util/UserMock");
+const CurrentUserUtil = require("../lib/CurrentUserUtil");
+const UserMock = require("./util/UserMock");
 
 
 describe("CurrentUser Utility tests", () => {
