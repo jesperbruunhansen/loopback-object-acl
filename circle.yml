@@ -2,6 +2,10 @@ machine:
   node:
     version: 6.10.0
 
+test:
+  pre:
+    - cd test/test-server && npm install
+
 experimental:
   notify:
     branches:
