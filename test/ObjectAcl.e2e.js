@@ -232,5 +232,116 @@ describe("Object ACL e2e", () => {
 
   });
 
+  describe("Combining User and Group read permissions", () => {
+
+    let token1;
+    let token2;
+
+    let book1;
+    let book2;
+
+    before(() => {
+
+      const email1 = randomstring.generate({
+        length: 12,
+        charset: 'alphabetic'
+      });
+      const email2 = randomstring.generate({
+        length: 12,
+        charset: 'alphabetic'
+      });
+
+      return Promise.all([
+
+        //User
+        app.models.User.create({
+          email: email1 + "@test.com",
+          password: "1234",
+          acl_groups: ["group-id-a"]
+        }).then(user => {
+
+          //Token
+          return app.models.AccessToken.create({
+            userId: user.id
+          }).then(token => {
+
+            token1 = token;
+
+            //Book
+            return app.models.Book.create({
+              "name": "foo",
+              "$acl": {
+                "r_perm": {
+                  "users": [user.id],
+                  "groups": ["group-id-b"]
+                }
+              }
+            }).then(book => {
+              book1 = book;
+              return Promise.resolve();
+            });
+
+          });
+
+        }),
+
+        //User
+        app.models.User.create({
+          email: email2 + "@test.com",
+          password: "1234",
+          acl_groups: ["group-id-b"]
+        }).then(user => {
+
+          //Token
+          return app.models.AccessToken.create({
+            userId: user.id
+          }).then(token => {
+
+            token2 = token;
+
+            //Book
+            return app.models.Book.create({
+              "name": "foo",
+              "$acl": {
+                "r_perm": {
+                  "users": [user.id],
+                  "groups": ["group-id-a"]
+                }
+              }
+            }).then(book => {
+              book2 = book;
+              return Promise.resolve();
+            });
+
+          });
+
+        }),
+
+      ]);
+
+    });
+
+    it("User 1 has access to Book 2", done => {
+
+      request(app)
+        .get("/api/books/" + book1.id)
+        .set({"authorization": token1.id})
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(done);
+
+    });
+    it("User 2 has access to Book 1", done => {
+
+      request(app)
+        .get("/api/books/" + book1.id)
+        .set({"authorization": token1.id})
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(done);
+
+    });
+
+  });
 
 });
