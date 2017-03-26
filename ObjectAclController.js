@@ -1,6 +1,7 @@
 const CurrentUserUtil = require("./lib/CurrentUserUtil");
 const ObjectAcl = require("./lib/ObjectAcl");
 const RequestParser = require("./lib/RequestParser");
+const AclError = require("./lib/AclError");
 
 class ObjectAclController {
 
@@ -11,10 +12,10 @@ class ObjectAclController {
     this.model.afterRemote("**", (ctx, instance, next) => this.afterRemote(ctx, instance, next));
   }
 
-  afterRemote(ctx, instance, next){
-    if(instance){
+  afterRemote(ctx, instance, next) {
+    if (instance) {
       const parser = new RequestParser(instance);
-      if(parser.DataSource.hasAclPerms()){
+      if (parser.DataSource.hasAclPerms()) {
         parser.DataSource.parse();
       }
     }
@@ -30,7 +31,8 @@ class ObjectAclController {
       if (parser.Client.hasAcl()) {
 
         if (!parser.Client.hasReadPerm() && !parser.Client.hasWritePerm()) {
-          return next({message:"Saw ACL, but no permissions given"});
+
+          return next(new AclError("No permissions found").status(400));
         }
 
         parser.Client.resolveReadPerms();

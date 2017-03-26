@@ -213,8 +213,7 @@ describe("ObjectAclController tests", () => {
           "isbn": 1231,
           "$acl": {}
         })
-        .expect('Content-Type', /json/)
-        .expect(500)
+        .expect(400)
         .end(done);
 
     });
@@ -389,6 +388,28 @@ describe("ObjectAclController tests", () => {
           done();
 
         });
+
+    });
+
+  });
+
+  describe("Client errors", () => {
+
+    it("Handles wrong permission syntax", done => {
+
+      request(app)
+        .post("/api/books")
+        .set({"authorization": token})
+        .send({
+          "name": "name",
+          "$acl": {
+            "lorem": [],
+            "foo": []
+          }
+        })
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .end(done);
 
     });
 
