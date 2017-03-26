@@ -321,7 +321,7 @@ describe("Object ACL e2e", () => {
 
     });
 
-    it("User 1 has access to Book 2", done => {
+    it("User 1 has access to Book 1", done => {
 
       request(app)
         .get("/api/books/" + book1.id)
@@ -331,7 +331,7 @@ describe("Object ACL e2e", () => {
         .end(done);
 
     });
-    it("User 2 has access to Book 1", done => {
+    it("User 2 has access to Book 2", done => {
 
       request(app)
         .get("/api/books/" + book1.id)
