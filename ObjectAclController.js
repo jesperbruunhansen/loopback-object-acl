@@ -32,7 +32,10 @@ class ObjectAclController {
 
         if (!parser.Client.hasReadPerm() && !parser.Client.hasWritePerm()) {
 
-          return next(new AclError("No permissions found").status(400));
+          return next(
+            new AclError("No permissions found")
+              .status(400)
+          );
         }
 
         parser.Client.resolveReadPerms();
