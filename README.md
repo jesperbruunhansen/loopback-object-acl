@@ -105,7 +105,7 @@ If `user-id-1` and `user-id-2` is not in `group-id-1` then these users can have 
 ### Public objects
 If you have installed the mixin on your model but you dont specify `$acl` on creation of a new object, the objects visibility will be public, ex: 
 
-`POST /api/books
+`POST /api/books`
 ```js
 {
    "title": "Clean Code",
