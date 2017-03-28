@@ -64,12 +64,13 @@ GET /api/books/123
 authorization: accessToken-ddd
 ```
 returns:
+
 `404 Not found`
 
 ### Group Read-level permissions
 To specifiy every user that will have access to the object can be cumbersome and timeconsuming. This is where groups come in handy.
 
-`POST /api/books
+`POST /api/books`
 ```js
 {
    "title": "Clean Code",
