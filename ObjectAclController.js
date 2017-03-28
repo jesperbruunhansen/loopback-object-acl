@@ -15,9 +15,8 @@ class ObjectAclController {
   afterRemote(ctx, instance, next) {
     if (instance) {
       const parser = new RequestParser(instance);
-      if (parser.DataSource.hasAclPerms()) {
-        parser.DataSource.parse();
-      }
+      parser.DataSource.parse();
+
     }
     next();
   }
@@ -59,6 +58,10 @@ class ObjectAclController {
   }
 
   onAccess(ctx, next) {
+
+    if(ctx.options.skipAcl){
+      return next();
+    }
 
     if (!ctx.options.currentUser) {
       throw new Error("currentUser not set on ctx");

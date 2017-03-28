@@ -415,4 +415,62 @@ describe("ObjectAclController tests", () => {
 
   });
 
+  describe("Array response", () => {
+
+    before(() => {
+      return app.models.Book.destroyAll(null, {skipAcl:true}).then(() => {
+        return Promise.all([
+          app.models.Book.create({name:"First"}),
+          app.models.Book.create({name:"Second"}),
+          app.models.Book.create({name:"Third"}),
+        ]);
+      });
+    });
+
+    it("Should parse the response when returning an array", done => {
+
+      request(app)
+        .get("/api/books")
+        .set({"authorization": token})
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+
+          let books = res.body;
+
+          assert.deepEqual(books[0], {
+            "id":books[0].id,
+            "name":"First",
+            "$acl":{
+              "r_perm":{ users:["*"], groups:["*"]},
+              "w_perm":{ users:["*"], groups:["*"]},
+            }
+          });
+
+          assert.deepEqual(books[1], {
+            "id":books[1].id,
+            "name":"Second",
+            "$acl":{
+              "r_perm":{ users:["*"], groups:["*"]},
+              "w_perm":{ users:["*"], groups:["*"]},
+            }
+          });
+
+          assert.deepEqual(books[2], {
+            "id":books[2].id,
+            "name":"Third",
+            "$acl":{
+              "r_perm":{ users:["*"], groups:["*"]},
+              "w_perm":{ users:["*"], groups:["*"]},
+            }
+          });
+
+          done();
+
+        });
+
+    });
+
+  });
+
 });
