@@ -84,21 +84,63 @@ describe("Object ACL e2e", () => {
 
   describe("Public Read permissions", () => {
 
+    let public_book;
+    let private_book;
+
     before(() => {
-      return app.models.Book.create({
-        "name": "name",
-        "isbn": 1231,
+      return app.models.Book.destroyAll(null, {skipAcl: true}).then(() => {
+        return Promise.all([
+          app.models.Book.create({
+            "name": "public",
+            "isbn": 1231,
+          }),
+          app.models.Book.create({
+            "name": "private",
+            "isbn": 1231,
+            "$acl": {
+              "r_perm": {
+                "users": ["1"]
+              }
+            }
+          })
+        ]).then(books => {
+          public_book = books[0];
+          private_book = books[1];
+          return Promise.resolve();
+        });
       });
+
     });
 
-    it("It publicly readable by all", (done) => {
+    it("Is publicly readable by all", (done) => {
 
       request(app)
-        .get("/api/books/3")
+        .get("/api/books/" + public_book.id)
         .set({"authorization": token})
         .expect('Content-Type', /json/)
         .expect(200)
         .end(done);
+
+    });
+
+    it("Should only return the public book, when no currentUser", (done) => {
+
+      request(app)
+        .get("/api/books")
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+
+          if (err) return done(err);
+
+          let books = res.body;
+
+          assert.equal(books.length, 1);
+          assert.equal(books[0].name, "public");
+
+          done();
+
+        });
 
     });
 

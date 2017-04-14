@@ -65,7 +65,9 @@ class ObjectAclController {
     }
 
     if (!ctx.options.currentUser) {
-      throw new Error("currentUser not set on ctx");
+      let objectAcl = new ObjectAcl({query:ctx.query});
+      objectAcl.setPublicReadQuery();
+      return next();
     }
 
     const currentUserUtil = new CurrentUserUtil({

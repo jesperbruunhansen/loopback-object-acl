@@ -47,8 +47,7 @@ describe("Object Acl tests", () => {
     it("Concatenates 'or' when present", () => {
 
       objectAcl._query = {where: {or: [1, 2, 3]}};
-      objectAcl._aclReadQuery = [4, 5, 6];
-      objectAcl.setWhereQuery();
+      objectAcl.setWhereQuery([4, 5, 6]);
       assert.deepEqual(objectAcl.query.where.or, [1, 2, 3, 4, 5, 6]);
 
     });

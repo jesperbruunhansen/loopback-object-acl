@@ -4,7 +4,7 @@ machine:
 
 test:
   pre:
-    cd test/test-server && npm install
+    - cd test/test-server && npm install
 
 experimental:
   notify:
