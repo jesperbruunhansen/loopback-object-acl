@@ -9,7 +9,7 @@ CircleCI: [![CircleCI](https://circleci.com/gh/jesperbruunhansen/loopback-object
 ### User Read-level permissions
 Lets say we want a Book-object only to be readable (pun intended) by 3 users (id: "aaa", id: "bbb" and id: "ccc"):
 
-POST /api/books
+`POST /api/books`
 ```js
 {
    "title": "Clean Code",
@@ -41,7 +41,11 @@ The mixin will parse the object to be stored as in Mongo:
 ```
 This object can now only be accessed by a user with an id of "aaa", "bbb" or "ccc" and no one else. When retrieving, the mixin will parse the object's ACL right back again:
 
+```
 GET /api/books/123
+authorization: accessToken-aaa
+```
+returns:
 ```js
 {
    "id": "123"
@@ -54,11 +58,19 @@ GET /api/books/123
    }
 }
 ```
+Whereas requesting without permissions leads to:
+```
+GET /api/books/123
+authorization: accessToken-ddd
+```
+returns:
+
+`404 Not found`
 
 ### Group Read-level permissions
 To specifiy every user that will have access to the object can be cumbersome and timeconsuming. This is where groups come in handy.
 
-POST /api/books
+`POST /api/books`
 ```js
 {
    "title": "Clean Code",
@@ -76,7 +88,7 @@ As you've might guessed, this object is now accessible by users who has `group-i
 ### Combining Group and Read-level permissions
 If `user-id-1` and `user-id-2` is not in `group-id-1` then these users can have explicit access this way:
 
-POST /api/books
+`POST /api/books`
 ```js
 {
    "title": "Clean Code",
@@ -93,7 +105,7 @@ POST /api/books
 ### Public objects
 If you have installed the mixin on your model but you dont specify `$acl` on creation of a new object, the objects visibility will be public, ex: 
 
-POST /api/books
+`POST /api/books`
 ```js
 {
    "title": "Clean Code",
