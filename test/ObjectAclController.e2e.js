@@ -218,7 +218,6 @@ describe("ObjectAclController tests", () => {
 
     });
 
-
     it("Only assign Read ACLs to user, when nothing else is given", (done) => {
 
       request(app)
@@ -260,7 +259,6 @@ describe("ObjectAclController tests", () => {
         });
 
     });
-
 
     it("Only assign Read ACLs to groups, when nothing else is given", (done) => {
 
@@ -304,7 +302,6 @@ describe("ObjectAclController tests", () => {
         });
 
     });
-
 
     it("Only assign Write ACLs to user, when nothing else is given", (done) => {
 
