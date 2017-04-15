@@ -97,4 +97,25 @@ describe("ACL's on user-model", () => {
 
   });
 
+  it("Should return OK when accessing user within same group", (done) => {
+
+    request(app)
+      .get("/api/members/" + test_users[0].id)
+      .set({"authorization": token.id})
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(done);
+
+  });
+  it("Should return 404 when accessing user without same group", (done) => {
+
+    request(app)
+      .get("/api/members/" + test_users[1].id)
+      .set({"authorization": token.id})
+      .expect('Content-Type', /json/)
+      .expect(404)
+      .end(done);
+
+  });
+
 });
