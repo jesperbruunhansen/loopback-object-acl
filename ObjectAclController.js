@@ -24,6 +24,10 @@ class ObjectAclController {
 
   beforeSave(ctx, next) {
 
+    if (this.model.base.modelName === "User") {
+      ctx.options.userBeforeSave = true;
+    }
+
     if (ctx.isNewInstance) {
 
       const parser = new RequestParser(ctx.instance);
@@ -60,7 +64,7 @@ class ObjectAclController {
 
   onAccess(ctx, next) {
 
-    if(ctx.options.skipAcl){
+    if (ctx.options.skipAcl || ctx.options.userBeforeSave) {
       return next();
     }
 
