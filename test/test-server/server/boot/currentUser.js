@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = function(app) {
   app.remotes().phases
     .addBefore('invoke', 'options-from-request')
@@ -5,11 +7,17 @@ module.exports = function(app) {
 
       if (!ctx.args.options || !ctx.args.options.accessToken) return next();
 
-      const User = app.models.User;
-      User.findById(ctx.args.options.accessToken.userId, function(err, user) {
-        if (err) return next(err);
+      const Member = app.models.Member;
+
+      Member.findById(ctx.args.options.accessToken.userId, null, {
+        skipAcl:true
+      }).then(user => {
+
+        if(!user) return next("AccessToken invalid");
+
         ctx.args.options.currentUser = user;
         next();
-      });
+
+      }).catch(next);
     });
 };

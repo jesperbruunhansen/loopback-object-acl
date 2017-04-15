@@ -12,13 +12,13 @@ describe("Object ACL e2e", () => {
 
   before((done) => {
 
-    app.models.User.create({
+    app.models.Member.create({
       email: "test@test.com",
       password: "1234"
     }).then(() => {
 
       request(app)
-        .post('/api/users/login')
+        .post('/api/members/login')
         .send({
           email: "test@test.com",
           password: "1234"
@@ -176,7 +176,7 @@ describe("Object ACL e2e", () => {
         charset: 'alphabetic'
       });
 
-      return app.models.User.create({
+      return app.models.Member.create({
         email: email1 + "@test.com",
         password: "1234",
         acl_groups: ["aaa"]
@@ -190,7 +190,7 @@ describe("Object ACL e2e", () => {
 
         user1token = accessToken1.id;
 
-        return app.models.User.create({
+        return app.models.Member.create({
           email: email2 + "@test.com",
           password: "1234",
           acl_groups: ["bbb"]
@@ -296,7 +296,7 @@ describe("Object ACL e2e", () => {
       return Promise.all([
 
         //User
-        app.models.User.create({
+        app.models.Member.create({
           email: email1 + "@test.com",
           password: "1234",
           acl_groups: ["group-id-a"]
@@ -328,7 +328,7 @@ describe("Object ACL e2e", () => {
         }),
 
         //User
-        app.models.User.create({
+        app.models.Member.create({
           email: email2 + "@test.com",
           password: "1234",
           acl_groups: ["group-id-b"]
@@ -385,5 +385,7 @@ describe("Object ACL e2e", () => {
     });
 
   });
+
+
 
 });

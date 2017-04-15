@@ -24,6 +24,11 @@ class ObjectAclController {
 
   beforeSave(ctx, next) {
 
+    //Set flag for onAccess to skip ACL's for isValid() check
+    if (this.model.base.modelName === "User") {
+      ctx.options.userBeforeSave = true;
+    }
+
     if (ctx.isNewInstance) {
 
       const parser = new RequestParser(ctx.instance);
@@ -60,10 +65,18 @@ class ObjectAclController {
 
   onAccess(ctx, next) {
 
-    if(ctx.options.skipAcl){
+    //From options
+    if (ctx.options.skipAcl) {
       return next();
     }
 
+    //Skip ACLs when isValid()-check is made on User model
+    if (ctx.options.userBeforeSave){
+      return next();
+    }
+
+    //If no CurrentUser (un-authenticated request is made), allow only
+    //for public objects to be returned
     if (!ctx.options.currentUser) {
       let objectAcl = new ObjectAcl({query:ctx.query});
       objectAcl.setPublicReadQuery();
