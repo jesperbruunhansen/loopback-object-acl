@@ -8,7 +8,7 @@ class ObjectAclController {
   constructor(Model, options = {}) {
     this.model = Model;
     this.model.observe("before save", (ctx, next) => this.beforeSave(ctx, next));
-    this.model.observe("access", (ctx, next) => this.onAccess(ctx, next));
+    this.model.observe("access", (ctx, next) => this.onAccess(ctx, next, options));
     this.model.afterRemote("**", (ctx, instance, next) => this.afterRemote(ctx, instance, next));
   }
 
@@ -63,7 +63,7 @@ class ObjectAclController {
     next();
   }
 
-  onAccess(ctx, next) {
+  onAccess(ctx, next, options) {
 
     //From options
     if (ctx.options.skipAcl) {
@@ -85,7 +85,8 @@ class ObjectAclController {
 
     const currentUserUtil = new CurrentUserUtil({
       currentUser: ctx.options.currentUser,
-      app: this.model.app
+      app: this.model.app,
+      aclPropertyName:options.aclPropertyName
     });
 
     let objectAcl = new ObjectAcl({
