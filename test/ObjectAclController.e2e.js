@@ -52,7 +52,7 @@ describe("ObjectAclController tests", () => {
         .set({"authorization": token})
         .send({
           "name": "VERY clean code",
-          "$acl": {
+          "_acl": {
             "r_perm": {
               "users": ["*"],
               "groups": ["*"]
@@ -71,9 +71,9 @@ describe("ObjectAclController tests", () => {
 
           const body = res.body;
           assert.deepEqual(body, {
-            "id": bookId,
+            "id": bookId.toString(),
             "name": "VERY clean code",
-            "$acl": {
+            "_acl": {
               "r_perm": {
                 "users": ["*"],
                 "groups": ["*"]
@@ -106,7 +106,7 @@ describe("ObjectAclController tests", () => {
 
           const body = res.body;
           assert.deepEqual(body, {
-            "id": bookId,
+            "id": bookId.toString(),
             "name": "VERY clean code v.2"
           });
           done();
@@ -127,7 +127,7 @@ describe("ObjectAclController tests", () => {
         .send({
           "name": "name",
           "isbn": 1231,
-          "$acl": {
+          "_acl": {
             "r_perm": {
               "users": ["aaa", "bbb"],
               "groups": ["ccc", "ddd"]
@@ -149,7 +149,7 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "$acl": {
+            "_acl": {
               "r_perm": {
                 "users": ["aaa", "bbb"],
                 "groups": ["ccc", "ddd"]
@@ -186,7 +186,7 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "$acl": {
+            "_acl": {
               "r_perm": {
                 "users": ["*"],
                 "groups": ["*"]
@@ -211,7 +211,7 @@ describe("ObjectAclController tests", () => {
         .send({
           "name": "name",
           "isbn": 1231,
-          "$acl": {}
+          "_acl": {}
         })
         .expect(400)
         .end(done);
@@ -226,7 +226,7 @@ describe("ObjectAclController tests", () => {
         .send({
           "name": "name",
           "isbn": 1231,
-          "$acl": {
+          "_acl": {
             "r_perm": {
               "users": ["aaa", "bbb"]
             }
@@ -243,7 +243,7 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "$acl": {
+            "_acl": {
               "r_perm": {
                 "users": ["aaa", "bbb"],
                 "groups": []
@@ -268,7 +268,7 @@ describe("ObjectAclController tests", () => {
         .send({
           "name": "name",
           "isbn": 1231,
-          "$acl": {
+          "_acl": {
             "r_perm": {
               "groups": ["aaa", "bbb"]
             }
@@ -285,7 +285,7 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "$acl": {
+            "_acl": {
               "r_perm": {
                 "users": [],
                 "groups": ["aaa", "bbb"]
@@ -311,7 +311,7 @@ describe("ObjectAclController tests", () => {
         .send({
           "name": "name",
           "isbn": 1231,
-          "$acl": {
+          "_acl": {
             "w_perm": {
               "users": ["aaa", "bbb"]
             }
@@ -328,7 +328,7 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "$acl": {
+            "_acl": {
               "r_perm": {
                 "users": [],
                 "groups": []
@@ -353,7 +353,7 @@ describe("ObjectAclController tests", () => {
         .send({
           "name": "name",
           "isbn": 1231,
-          "$acl": {
+          "_acl": {
             "w_perm": {
               "groups": ["aaa", "bbb"]
             }
@@ -370,7 +370,7 @@ describe("ObjectAclController tests", () => {
             "id": body.id,
             "name": "name",
             "isbn": 1231,
-            "$acl": {
+            "_acl": {
               "r_perm": {
                 "users": [],
                 "groups": []
@@ -399,7 +399,7 @@ describe("ObjectAclController tests", () => {
         .set({"authorization": token})
         .send({
           "name": "name",
-          "$acl": {
+          "_acl": {
             "lorem": [],
             "foo": []
           }
@@ -438,7 +438,7 @@ describe("ObjectAclController tests", () => {
           assert.deepEqual(books[0], {
             "id":books[0].id,
             "name":"First",
-            "$acl":{
+            "_acl":{
               "r_perm":{ users:["*"], groups:["*"]},
               "w_perm":{ users:["*"], groups:["*"]},
             }
@@ -447,7 +447,7 @@ describe("ObjectAclController tests", () => {
           assert.deepEqual(books[1], {
             "id":books[1].id,
             "name":"Second",
-            "$acl":{
+            "_acl":{
               "r_perm":{ users:["*"], groups:["*"]},
               "w_perm":{ users:["*"], groups:["*"]},
             }
@@ -456,7 +456,7 @@ describe("ObjectAclController tests", () => {
           assert.deepEqual(books[2], {
             "id":books[2].id,
             "name":"Third",
-            "$acl":{
+            "_acl":{
               "r_perm":{ users:["*"], groups:["*"]},
               "w_perm":{ users:["*"], groups:["*"]},
             }

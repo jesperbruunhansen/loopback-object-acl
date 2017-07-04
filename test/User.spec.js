@@ -24,7 +24,7 @@ describe("ACL's on user-model", () => {
           email: email1 + "@test.com",
           password: "1234",
           acl_groups: ["test-group-1"],
-          "$acl": {
+          "_acl": {
             "r_perm": {
               "groups": ["test-group-1"]
             }
@@ -41,7 +41,7 @@ describe("ACL's on user-model", () => {
           email: email2 + "@test.com",
           password: "1234",
           acl_groups: ["test-group-1"],
-          "$acl": {
+          "_acl": {
             "r_perm": {
               "groups": ["test-group-1"]
             }
@@ -51,7 +51,7 @@ describe("ACL's on user-model", () => {
           email: email3 + "@test.com",
           password: "1234",
           acl_groups: ["test-group-2"],
-          "$acl": {
+          "_acl": {
             "r_perm": {
               "groups": ["test-group-2"]
             }
@@ -61,7 +61,7 @@ describe("ACL's on user-model", () => {
           email: email4 + "@test.com",
           password: "1234",
           acl_groups: ["test-group-2"],
-          "$acl": {
+          "_acl": {
             "r_perm": {
               "groups": ["test-group-2"]
             }

@@ -29,7 +29,7 @@ describe("ACL property names as mixin config", () => {
 
     return Promise.all(membersCreated)
       .then(users => {
-        return Book.create({id: 1, name: 'book 1', $acl: { r_perm: { groups: ["a"]}}})
+        return Book.create({id: 1, name: 'book 1', _acl: { r_perm: { groups: ["a"]}}})
           .then(book => Book.findById(book.id, null, {currentUser : users[0]}))
           .then(book => {
             assert.equal(book.id, 1);
@@ -62,7 +62,7 @@ describe("ACL property names as mixin config", () => {
 
     return Promise.all(membersCreated)
       .then(users => {
-        return Book.create({id: 1, name: 'book 1', $acl: { r_perm: { groups: ["a"]}}})
+        return Book.create({id: 1, name: 'book 1', _acl: { r_perm: { groups: ["a"]}}})
           .then(book => Book.findById(book.id, null, {currentUser : users[0]}))
           .then(book => {
             assert.equal(book.id, 1);

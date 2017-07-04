@@ -43,7 +43,7 @@ describe("Object ACL e2e", () => {
         app.models.Book.create({
           "name": "name",
           "isbn": 1231,
-          "$acl": {
+          "_acl": {
             "r_perm": {
               "users": [token.userId]
             }
@@ -52,7 +52,7 @@ describe("Object ACL e2e", () => {
         app.models.Book.create({
           "name": "name",
           "isbn": 1231,
-          "$acl": {
+          "_acl": {
             "r_perm": {
               "users": ["ayx"]
             }
@@ -101,7 +101,7 @@ describe("Object ACL e2e", () => {
           app.models.Book.create({
             "name": "private",
             "isbn": 1231,
-            "$acl": {
+            "_acl": {
               "r_perm": {
                 "users": ["1"]
               }
@@ -215,7 +215,7 @@ describe("Object ACL e2e", () => {
           app.models.Book.create({
             "name": "name",
             "isbn": 1231,
-            "$acl": {
+            "_acl": {
               "r_perm": {
                 "groups": ["aaa"]
               }
@@ -224,7 +224,7 @@ describe("Object ACL e2e", () => {
           app.models.Book.create({
             "name": "name",
             "isbn": 1231,
-            "$acl": {
+            "_acl": {
               "r_perm": {
                 "groups": ["bbb"]
               }
@@ -316,7 +316,7 @@ describe("Object ACL e2e", () => {
             //Book
             return app.models.Book.create({
               "name": "foo",
-              "$acl": {
+              "_acl": {
                 "r_perm": {
                   "users": [user.id.toString()],
                   "groups": ["group-id-b"]
@@ -348,7 +348,7 @@ describe("Object ACL e2e", () => {
             //Book
             return app.models.Book.create({
               "name": "foo",
-              "$acl": {
+              "_acl": {
                 "r_perm": {
                   "users": [user.id.toString()],
                   "groups": ["group-id-a"]

@@ -14,7 +14,7 @@ Lets say we want a Book-object only to be readable (pun intended) by 3 users (id
 {
    "title": "Clean Code",
    "subtitle": "A Handbook of Agile Software Craftsmanship",
-   "$acl":{
+   "_acl":{
      "r_perm": {
        "users":["aaa", "bbb", "ccc"]
      }
@@ -51,7 +51,7 @@ returns:
    "id": "123"
    "title": "Clean Code",
    "subtitle": "A Handbook of Agile Software Craftsmanship",
-   "$acl":{
+   "_acl":{
      "r_perm": {
        "users":["aaa", "bbb", "ccc"]
      }
@@ -75,7 +75,7 @@ To specifiy every user that will have access to the object can be cumbersome and
 {
    "title": "Clean Code",
    "subtitle": "A Handbook of Agile Software Craftsmanship",
-   "$acl":{
+   "_acl":{
      "r_perm": {
        "groups":["group-id-1"]
      }
@@ -93,7 +93,7 @@ If `user-id-1` and `user-id-2` is not in `group-id-1` then these users can have 
 {
    "title": "Clean Code",
    "subtitle": "A Handbook of Agile Software Craftsmanship",
-   "$acl":{
+   "_acl":{
      "r_perm": {
        "groups":["group-id-1"],
        "users":["user-id-1", "user-id-2"]
@@ -119,7 +119,7 @@ returns
 {
    "title": "Clean Code",
    "subtitle": "A Handbook of Agile Software Craftsmanship",
-   "$acl":{
+   "_acl":{
      "r_perm": {
        "groups":["*"],
        "users":["*"]
