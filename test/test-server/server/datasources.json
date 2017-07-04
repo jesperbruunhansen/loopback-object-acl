@@ -2,5 +2,14 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "mongodb": {
+    "host": "localhost",
+    "port": 27017,
+    "database": "acl-test",
+    "username": "",
+    "password": "",
+    "name": "mongodb",
+    "connector": "mongodb"
   }
 }

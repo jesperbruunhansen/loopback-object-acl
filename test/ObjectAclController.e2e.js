@@ -16,7 +16,7 @@ describe("ObjectAclController tests", () => {
       charset: 'alphabetic'
     });
 
-    return app.models.User.create({
+    return app.models.Member.create({
       email: email + "@test.com",
       password: "1234"
     }).then(user => {

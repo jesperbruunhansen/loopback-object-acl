@@ -25,7 +25,7 @@ describe("Object ACL e2e", () => {
         })
         .end((err, res) => {
 
-          token = res.body.id;
+          token = res.body;
           done();
 
         });
@@ -36,6 +36,8 @@ describe("Object ACL e2e", () => {
 
   describe("User Read permissions", () => {
 
+    let books;
+
     before(() => {
       return Promise.all([
         app.models.Book.create({
@@ -43,7 +45,7 @@ describe("Object ACL e2e", () => {
           "isbn": 1231,
           "$acl": {
             "r_perm": {
-              "users": ["1"]
+              "users": [token.userId]
             }
           }
         }),
@@ -52,18 +54,20 @@ describe("Object ACL e2e", () => {
           "isbn": 1231,
           "$acl": {
             "r_perm": {
-              "users": ["2"]
+              "users": ["ayx"]
             }
           }
         }),
-      ]);
+      ]).then(books_ => {
+        books = books_
+      });
     });
 
     it("User 1 has access to Book 1", (done) => {
 
       request(app)
-        .get("/api/books/1")
-        .set({"authorization": token})
+        .get("/api/books/" + books[0].id)
+        .set({"authorization": token.id})
         .expect('Content-Type', /json/)
         .expect(200)
         .end(done);
@@ -72,8 +76,8 @@ describe("Object ACL e2e", () => {
     it("User 1 return 404 when accessing Book 2", (done) => {
 
       request(app)
-        .get("/api/books/2")
-        .set({"authorization": token})
+        .get("/api/books/" + books[1].id)
+        .set({"authorization": token.id})
         .expect('Content-Type', /json/)
         .expect(404)
         .end(done);
@@ -116,7 +120,7 @@ describe("Object ACL e2e", () => {
 
       request(app)
         .get("/api/books/" + public_book.id)
-        .set({"authorization": token})
+        .set({"authorization": token.id})
         .expect('Content-Type', /json/)
         .expect(200)
         .end(done);
@@ -314,7 +318,7 @@ describe("Object ACL e2e", () => {
               "name": "foo",
               "$acl": {
                 "r_perm": {
-                  "users": [user.id],
+                  "users": [user.id.toString()],
                   "groups": ["group-id-b"]
                 }
               }
@@ -346,7 +350,7 @@ describe("Object ACL e2e", () => {
               "name": "foo",
               "$acl": {
                 "r_perm": {
-                  "users": [user.id],
+                  "users": [user.id.toString()],
                   "groups": ["group-id-a"]
                 }
               }
@@ -376,8 +380,8 @@ describe("Object ACL e2e", () => {
     it("User 2 has access to Book 2", done => {
 
       request(app)
-        .get("/api/books/" + book1.id)
-        .set({"authorization": token1.id})
+        .get("/api/books/" + book2.id)
+        .set({"authorization": token2.id})
         .expect('Content-Type', /json/)
         .expect(200)
         .end(done);

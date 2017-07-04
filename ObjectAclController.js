@@ -7,6 +7,7 @@ class ObjectAclController {
 
   constructor(Model, options = {}) {
     this.model = Model;
+    this.model.settings.strictObjectIDCoercion = true;
     this.model.observe("before save", (ctx, next) => this.beforeSave(ctx, next));
     this.model.observe("access", (ctx, next) => this.onAccess(ctx, next, options));
     this.model.afterRemote("**", (ctx, instance, next) => this.afterRemote(ctx, instance, next));
