@@ -2,6 +2,9 @@ const assert = require('assert');
 const CurrentUserUtil = require("../lib/CurrentUserUtil");
 const ObjectAcl = require("../lib/ObjectAcl");
 const UserMock = require("./util/UserMock");
+const path = require("path");
+const SIMPLE_APP = path.join(__dirname, 'test-server');
+const app = require(path.join(SIMPLE_APP, 'server/server.js'));
 
 describe("Object Acl tests", () => {
 
@@ -25,6 +28,41 @@ describe("Object Acl tests", () => {
 
   });
 
+  describe("Pass options manually", () => {
+
+    let user;
+
+    before(() => {
+      return app.models.Member.create({email: "foo@bar.dk", password: "1234"})
+        .then(user_ => {
+          user = user_;
+          return Promise.all([
+            app.models.Book.create({_acl: {r_perm: {users: [user_.id.toString()]}}}),
+            app.models.Book.create({_acl: {r_perm: {users: ["xyz"]}}}),
+            app.models.Book.create({_acl: {r_perm: {users: ["xyz"]}}}),
+          ]);
+        })
+    });
+
+    it("Should not return any books", () => {
+      return app.models.Book.find().then(books => {
+        assert.deepEqual(books.length, 0);
+      });
+    });
+
+    it("Should return all books, by ignoring ACL", () => {
+      return app.models.Book.find(null, {skipAcl:true}).then(books => {
+        assert.equal(books.length, 3);
+      });
+    });
+
+    it("Should only return Books that the user has access to", () => {
+      return app.models.Book.find(null, {currentUser:user}).then(books => {
+        assert.equal(books.length, 1);
+      });
+    });
+
+  });
 
   describe("Where query", () => {
 
@@ -71,14 +109,14 @@ describe("Object Acl tests", () => {
     it("Returns read user query", () => {
 
       const q = objectAcl.getUserReadQuery();
-      assert.deepEqual(q, {"r.u":{"inq":["abc123", "*"]}});
+      assert.deepEqual(q, {"r.u": {"inq": ["abc123", "*"]}});
 
     });
 
     it("Returns read groups query", () => {
 
       const q = objectAcl.getGroupsReadQuery();
-      assert.deepEqual(q, {"r.g":{"inq":["aaa", "bbb", "ccc", "*"]}});
+      assert.deepEqual(q, {"r.g": {"inq": ["aaa", "bbb", "ccc", "*"]}});
 
     });
 
@@ -86,8 +124,8 @@ describe("Object Acl tests", () => {
 
       objectAcl.setReadQuery();
       assert.deepEqual(objectAcl.aclReadQuery, [
-        {"r.u":{"inq":["abc123", "*"]}},
-        {"r.g":{"inq":["aaa", "bbb", "ccc", "*"]}}
+        {"r.u": {"inq": ["abc123", "*"]}},
+        {"r.g": {"inq": ["aaa", "bbb", "ccc", "*"]}}
       ]);
 
     });
@@ -98,8 +136,8 @@ describe("Object Acl tests", () => {
       assert.deepEqual(objectAcl.query, {
         where: {
           or: [
-            {"r.u":{"inq":["abc123", "*"]}},
-            {"r.g":{"inq":["aaa", "bbb", "ccc", "*"]}}
+            {"r.u": {"inq": ["abc123", "*"]}},
+            {"r.g": {"inq": ["aaa", "bbb", "ccc", "*"]}}
           ]
         }
       });
