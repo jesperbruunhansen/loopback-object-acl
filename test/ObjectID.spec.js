@@ -45,6 +45,39 @@ describe("MongoDB as DataSource", () => {
     ]);
   });
 
+  it("Should work with strings as well", () => {
+
+    return Promise.all([
+      Member.create({acl_groups: ["aaa"]}),
+      Member.create({acl_groups: ["aaa"]}),
+      Member.create({acl_groups: ["bbb"]})
+    ]).then(members => {
+      return Promise.all([
+        Book.create({_acl: {r_perm: {groups: ["aaa"]}}, name: "Book nr. 1"}),
+        Book.create({_acl: {r_perm: {groups: ["aaa"]}}, name: "Book nr. 2"}),
+        Book.create({_acl: {r_perm: {groups: ["bbb"]}}, name: "Book nr. 3"}),
+      ]).then(() => members);
+    }).then(members => {
+      return Promise.all([
+        Book.find({}, {currentUser: members[0]}).then(books => {
+          assert.equal(books.length, 2);
+          assert.equal(books[0].name, "Book nr. 1");
+          assert.equal(books[1].name, "Book nr. 2");
+        }),
+        Book.find({}, {currentUser: members[1]}).then(books => {
+          assert.equal(books.length, 2);
+          assert.equal(books[0].name, "Book nr. 1");
+          assert.equal(books[1].name, "Book nr. 2");
+        }),
+        Book.find({}, {currentUser: members[2]}).then(books => {
+          assert.equal(books.length, 1);
+          assert.equal(books[0].name, "Book nr. 3");
+        })
+      ]);
+    });
+
+  });
+
   it("Should return only user-access level Books", () => {
 
     return Promise.all([
