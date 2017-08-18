@@ -1,6 +1,6 @@
 {
   "name": "loopback-object-acl",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Set object-level ACL permissions",
   "main": "ObjectAclController.js",
   "scripts": {
@@ -19,11 +19,14 @@
   "devDependencies": {
     "bluebird": "^3.5.0",
     "loopback": "^3.5.0",
+    "loopback-connector-mongodb": "^3.2.1",
     "mocha": "^3.2.0",
     "randomstring": "^1.1.5",
     "supertest": "^3.0.0"
   },
   "dependencies": {
-    "path": "^0.12.7"
+    "mongoose": "^4.11.7",
+    "path": "^0.12.7",
+    "mongodb": "latest"
   }
 }
