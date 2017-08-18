@@ -92,26 +92,26 @@ describe("Object ACL e2e", () => {
     let private_book;
 
     before(() => {
-      return app.models.Book.destroyAll(null, {skipAcl: true}).then(() => {
-        return Promise.all([
-          app.models.Book.create({
-            "name": "public",
-            "isbn": 1231,
-          }),
-          app.models.Book.create({
-            "name": "private",
-            "isbn": 1231,
-            "_acl": {
-              "r_perm": {
-                "users": ["1"]
-              }
+      // return app.models.Book.destroyAll(null, {skipAcl: true}).then(() => {
+      return Promise.all([
+        app.models.Book.create({
+          "name": "public",
+          "isbn": 1231,
+        }),
+        app.models.Book.create({
+          "name": "private",
+          "isbn": 1231,
+          "_acl": {
+            "r_perm": {
+              "users": ["1"]
             }
-          })
-        ]).then(books => {
-          public_book = books[0];
-          private_book = books[1];
-          return Promise.resolve();
-        });
+          }
+        })
+      ]).then(books => {
+        public_book = books[0];
+        private_book = books[1];
+        return Promise.resolve();
+        //});
       });
 
     });
@@ -318,7 +318,7 @@ describe("Object ACL e2e", () => {
               "name": "foo",
               "_acl": {
                 "r_perm": {
-                  "users": [user.id.toString()],
+                  "users": [user.id],
                   "groups": ["group-id-b"]
                 }
               }
@@ -350,7 +350,7 @@ describe("Object ACL e2e", () => {
               "name": "foo",
               "_acl": {
                 "r_perm": {
-                  "users": [user.id.toString()],
+                  "users": [user.id],
                   "groups": ["group-id-a"]
                 }
               }
@@ -389,7 +389,6 @@ describe("Object ACL e2e", () => {
     });
 
   });
-
 
 
 });

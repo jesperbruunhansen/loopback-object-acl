@@ -33,15 +33,17 @@ describe("Object Acl tests", () => {
     let user;
 
     before(() => {
-      return app.models.Member.create({email: "foo@bar.dk", password: "1234"})
-        .then(user_ => {
-          user = user_;
-          return Promise.all([
-            app.models.Book.create({_acl: {r_perm: {users: [user_.id.toString()]}}}),
-            app.models.Book.create({_acl: {r_perm: {users: ["xyz"]}}}),
-            app.models.Book.create({_acl: {r_perm: {users: ["xyz"]}}}),
-          ]);
-        })
+      return app.models.Book.destroyAll(null, {skipAcl: true}).then(() => {
+        return app.models.Member.create({email: "foo@bar.dk", password: "1234"})
+          .then(user_ => {
+            user = user_;
+            return Promise.all([
+              app.models.Book.create({_acl: {r_perm: {users: [user_.id.toString()]}}}),
+              app.models.Book.create({_acl: {r_perm: {users: ["xyz"]}}}),
+              app.models.Book.create({_acl: {r_perm: {users: ["xyz"]}}}),
+            ]);
+          });
+      });
     });
 
     it("Should not return any books", () => {
@@ -51,13 +53,13 @@ describe("Object Acl tests", () => {
     });
 
     it("Should return all books, by ignoring ACL", () => {
-      return app.models.Book.find(null, {skipAcl:true}).then(books => {
+      return app.models.Book.find(null, {skipAcl: true}).then(books => {
         assert.equal(books.length, 3);
       });
     });
 
     it("Should only return Books that the user has access to", () => {
-      return app.models.Book.find(null, {currentUser:user}).then(books => {
+      return app.models.Book.find(null, {currentUser: user}).then(books => {
         assert.equal(books.length, 1);
       });
     });

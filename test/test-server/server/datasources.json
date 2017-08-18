@@ -6,7 +6,7 @@
   "mongodb": {
     "host": "localhost",
     "port": 27017,
-    "database": "acl-test",
+    "database": "momentify-test",
     "username": "",
     "password": "",
     "name": "mongodb",

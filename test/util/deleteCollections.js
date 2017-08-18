@@ -8,4 +8,6 @@ Promise.map(["AccessToken", "Book", "Member"], model => {
 }).then(() => {
   console.log("Deleted ...");
   process.exit();
+}).catch(err => {
+  console.err(err);
 });
